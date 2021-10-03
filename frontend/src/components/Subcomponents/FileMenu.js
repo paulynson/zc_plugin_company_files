@@ -29,7 +29,8 @@ import { fileDetails } from "../../actions/fileAction";
 
 import axios from "axios";
 import FileDownload from "js-file-download";
-import StarPutFile from "./StarPut";
+
+import { useHistory } from "react-router";
 
 function FileMenu({ file, openStatus, setOpenStatus, type }) {
   const [openPreview, setOpenPreview] = useState(false);
@@ -72,7 +73,11 @@ function FileMenu({ file, openStatus, setOpenStatus, type }) {
   function moveTo() {}
 
   function addStar() {
-    SetAddStar(true);
+    const PutHistory = useHistory();
+    fetch("https://companyfiles.zuri.chat/api/v1/folders/starFolder/" + id, {
+      method: "PUT",
+    }).then((res) => (res.status === 200 ? PutHistory.push("/starred") : null));
+    };
 
   }
 
@@ -223,14 +228,7 @@ function FileMenu({ file, openStatus, setOpenStatus, type }) {
         )}
         {/* Add Star */}
         
-        {addStar && (
-          <StarPutFile
-            id={file._id}
-            file={file}
-            // addStar={addStar}
-            // SetAddStar={SetAddStar}
-          />
-        )}
+        
 
 
 

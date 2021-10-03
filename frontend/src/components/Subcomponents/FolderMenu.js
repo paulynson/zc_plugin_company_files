@@ -17,7 +17,8 @@ import { RiDeleteBinLine, RiErrorWarningLine } from "react-icons/ri/index";
 import { GrCut } from "react-icons/gr/index";
 import { FiCopy } from "react-icons/fi/index";
 import { HandleClickEvent } from "./HandleClickEvent";
-import StarFolder from "./StarPutFolder";
+import { useHistory } from "react-router";
+
 
 
 function FolderMenu({ folder, openStatus, setOpenStatus }) {
@@ -44,7 +45,12 @@ function FolderMenu({ folder, openStatus, setOpenStatus }) {
   function moveTo() {}
 
   function addStar() {
-    SetAddStarFolder(true);
+    const PutHistory = useHistory();
+    fetch("https://companyfiles.zuri.chat/api/v1/folders/starFolder/" + id, {
+      method: "PUT",
+    }).then((res) => (res.status === 200 ? PutHistory.push("/starred") : null));
+    };
+
   }
 
   function rename() {}
@@ -133,14 +139,7 @@ function FolderMenu({ folder, openStatus, setOpenStatus }) {
         </div>
       </HandleClickEvent>
 
-      {addStarFolder && (
-          <StarPutFile
-            id={folder._id}
-            folder={folder}
-            // addStarFolder={addStarFolder}
-            // setAddStarFolder={setAddStarFolder}
-          />
-        )}
+     
 
     </>
   );
